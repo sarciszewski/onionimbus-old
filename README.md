@@ -12,7 +12,8 @@ The purpose of this software is to promote anonymous publishing.
 5. Set your domain's A record to the IP address of the reverse proxy you selected (176.56.236.56 in our example above)
 
 ## How it Works
-There are two components to this project
+There are two components to this project:
+
 1. The controller website (onionimbus_site) which manages domain->proxy->hidden_service associations
 2. The reverse proxies (onionimbus_node) which actually handles the traffic
 The network I set up will consist of one controller website (located at https://onionimb.us) and many reverse proxies (hopefully, in different countries and operated by different people to prevent a single point of failure). The source code for all components is made available so others may operate their own network.
