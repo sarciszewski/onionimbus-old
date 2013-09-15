@@ -11,6 +11,8 @@ The purpose of this software is to promote anonymous publishing.
 4. Find a DNS provider. (Cloudflare's a decent choice, but find one that suits your needs.)
 5. Set your domain's A record to the IP address of the reverse proxy you selected (176.56.236.56 in our example above)
 
+That's it! Now when you access example.com, you will be browsing example7dfr3xtum.onion (over Tor, so it will probably be slow as hell).
+
 ## How it Works
 There are two components to this project:
 
