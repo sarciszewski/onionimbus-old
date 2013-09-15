@@ -21,9 +21,12 @@ The controller website sends encrypted and signed requests to the proxies in its
 
 When a valid request is received, the database is changed and the nginx configuration is scheduled to be rebuilt and reloaded.
 
-## Roadmap
+## Roadmap (Arbitrary goals)
+These version milestones are subject to change depending on the needs of the community over time. 
 * Version 0.1 - Allow users to add, remove, and reassign com->onion associations on the fly
 * Version 0.2 - Allow users to upload TLS keys and certificates (whether snakeoil, StartSSL, or other provider)
+* Version 0.3 - Allow other protocols to be proxied (IRC, XMPP, email, whatever is requested)?
+* Version 0.4 - Support i2psites
 
 ## Credit
 Based on the work of the tor2web project. RIP Aaron Swartz
