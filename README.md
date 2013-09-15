@@ -16,6 +16,7 @@ There are two components to this project:
 
 1. The controller website (onionimbus_site) which manages domain->proxy->hidden_service associations
 2. The reverse proxies (onionimbus_node) which actually handles the traffic
+
 The network I set up will consist of one controller website (located at https://onionimb.us) and many reverse proxies (hopefully, in different countries and operated by different people to prevent a single point of failure). The source code for all components is made available so others may operate their own network.
 
 The controller website sends encrypted and signed requests to the proxies in its network to add/remove domains from their internal database, in response to user activity.
