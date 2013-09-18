@@ -1,6 +1,9 @@
 #!/bin/bash
 # September 15, 2013 - Deploy the onionimbus_site configuration to a new server
-
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run as root" 1>&2
+  exit 1
+fi
 # Move configuration
 mv ./conf/php.conf /etc/nginx
 mv ./conf/sslciphers.conf /etc/nginx

@@ -1,7 +1,9 @@
 #!/bin/bash
 # September 15, 2013 - Deploy the onionimbus_node configuration to a new server
-
-# TODO: ONLY ALLOW INSTALL SCRIPT TO BE RUN BY ROOT OR VIA SUDO
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run as root" 1>&2
+  exit 1
+fi
 
 # Create the directory for all of our configurations
 mkdir /etc/onionimbus
