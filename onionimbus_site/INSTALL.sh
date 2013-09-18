@@ -11,7 +11,8 @@ mv ./conf/onionimbus.conf /etc/nginx/sites-enabled
 
 # Deploy
 mkdir /var/onionimbus
-mv ./outside_webroot/* /var/onionimbus/
+mv ./outside_webroot/db /var/onionimbus/db
+mv ./outside_webroot/includes /var/onionimbus/includes
 mkdir /var/onionimbus/public_html
 mv ./public_html/* /var/onionimbus/public_html
 mkdir /var/onionimbus/db
