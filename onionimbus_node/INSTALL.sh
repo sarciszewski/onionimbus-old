@@ -25,6 +25,6 @@ then
 else 
   # nginx not installed
   echo "Please install nginx before you continue!" 1>&2
-  echo "sudo apt-get install update && sudo apt-get install nginx" 1>&2
+  echo "sudo apt-get update && sudo apt-get install nginx" 1>&2
   exit 1  
 fi
