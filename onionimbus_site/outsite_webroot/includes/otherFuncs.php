@@ -7,7 +7,7 @@
   Validate an email address.
   Provide email address (raw input)
   Returns true if the email address has the email
-  address format and the domain exists.
+  address format and the domain exists. 
  */
 if(!function_exists('validEmail')) {
   function validEmail($email) {
