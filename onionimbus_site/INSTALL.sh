@@ -5,16 +5,16 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 # Move configuration
-mv ./conf/php.conf /etc/nginx
-mv ./conf/sslciphers.conf /etc/nginx
-mv ./conf/onionimbus.conf /etc/nginx/sites-enabled
+mv ./conf/php.conf /etc/nginx/php.conf
+mv ./conf/sslciphers.conf /etc/nginx/sslciphers.conf
+mv ./conf/onionimbus.conf /etc/nginx/sites-enabled/onionimbus.conf
 
 # Deploy
 mkdir /var/onionimbus
-mv ./outside_webroot/db /var/onionimbus/db
-mv ./outside_webroot/includes /var/onionimbus/includes
+cp ./outside_webroot/db/* /var/onionimbus/db
+cp ./outside_webroot/includes/* /var/onionimbus/includes
 mkdir /var/onionimbus/public_html
-mv ./public_html/* /var/onionimbus/public_html
+cp ./public_html/* /var/onionimbus/public_html
 mkdir /var/onionimbus/db
 
 chown -R www-data:www-data /var/onionimbus
