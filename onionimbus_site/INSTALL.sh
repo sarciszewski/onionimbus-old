@@ -4,18 +4,28 @@ if [[ $EUID -ne 0 ]]; then
   echo "This script must be run as root" 1>&2
   exit 1
 fi
-# Move configuration
-mv ./conf/php.conf /etc/nginx/php.conf
-mv ./conf/sslciphers.conf /etc/nginx/sslciphers.conf
-mv ./conf/onionimbus.conf /etc/nginx/sites-enabled/onionimbus.conf
+if [ -d /etc/nginx ] 
+then
+  # nginx is installed on this server. Hooray! :D
 
-# Deploy
-mkdir /var/onionimbus
-cp ./outside_webroot/db/* /var/onionimbus/db
-cp ./outside_webroot/includes/* /var/onionimbus/includes
-mkdir /var/onionimbus/public_html
-cp ./public_html/* /var/onionimbus/public_html
-mkdir /var/onionimbus/db
+  # Move configuration files
+  mv ./conf/php.conf /etc/nginx/php.conf
+  mv ./conf/sslciphers.conf /etc/nginx/sslciphers.conf
+  mv ./conf/onionimbus.conf /etc/nginx/sites-enabled/onionimbus.conf
+  
+  # Deploy
+  mkdir /var/onionimbus
+  cp ./outside_webroot/db/* /var/onionimbus/db
+  cp ./outside_webroot/includes/* /var/onionimbus/includes
+  mkdir /var/onionimbus/public_html
+  cp ./public_html/* /var/onionimbus/public_html
+  mkdir /var/onionimbus/db
 
-chown -R www-data:www-data /var/onionimbus
-service nginx restart
+  chown -R www-data:www-data /var/onionimbus
+  service nginx restart
+else 
+  # nginx not installed
+  echo "Please install nginx before you continue!" 1>&2
+  echo "sudo apt-get install update && sudo apt-get install nginx" 1 > &2
+  exit 1
+fi
