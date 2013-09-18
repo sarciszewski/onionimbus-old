@@ -47,7 +47,8 @@ $XSS = new HTMLPurifier();
 define('MAX_REC_DEPTH', 50); // Used in functions
 $jqueryver = '1.10.2'; // Load this version of jQuery everywhere!
 
-include_once $SETTINGS['includes'].'libscott.php';
+require_once $SETTINGS['includes'].'libscott.php';
+require_once $SETTINGS['includes'].'pbkdf2.php';
 # WE CAN USE SQLITE, MYSQL, ETC.
 $DB = new PDO('sqlite:/var/onionimbus/db/main.db');
 //$DB = new PDO('mysql:dbname=onionimbus;host=127.0.0.1', 'username', 'password');
