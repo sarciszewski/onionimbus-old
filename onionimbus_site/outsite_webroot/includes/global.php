@@ -1,5 +1,11 @@
 <?
 if(!defined('GLOBAL_LOADED')) {
+$SETTINGS =  ini_get('/var/onionimbus/settings.ini');
+define('SETTINGS_KEEP', serialize($SETTINGS));
+/* 
+ * Just in case we get paranoid in the future, we can do this:
+ * $SETTINGS = unserialize(SETTINGS_KEEP);
+ */
 // If you have time, update your php.ini file and comment these lines out
 // You'll get better performance
 ini_set('session.cookie_httponly', true);
@@ -41,6 +47,7 @@ $XSS = new HTMLPurifier();
 define('MAX_REC_DEPTH', 50); // Used in functions
 $jqueryver = '1.10.2'; // Load this version of jQuery everywhere!
 
+include_once $SETTINGS['includes'].'libscott.php';
 # WE CAN USE SQLITE, MYSQL, ETC.
 $DB = new PDO('sqlite:/var/onionimbus/db/main.db');
 //$DB = new PDO('mysql:dbname=onionimbus;host=127.0.0.1', 'username', 'password');
