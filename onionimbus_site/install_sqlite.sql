@@ -1,3 +1,10 @@
+CREATE TABLE sites (
+    siteid          INTEGER PRIMARY KEY ASC,
+    owner           INTEGER,
+    created         TEXT,
+    modified        TEXT
+);
+
 CREATE TABLE dns (
     dnsid           INTEGER PRIMARY KEY ASC,
     site            INTEGER,
@@ -10,6 +17,15 @@ CREATE TABLE dns (
     modified        TEXT
 );
 
+CREATE TABLE users (
+    userid          INTEGER PRIMARY KEY ASC,
+    username        TEXT,
+    password        TEXT,
+    email           TEXT,
+    created         TEXT,
+    modified        TEXT
+);
+
 CREATE TABLE nodes (
     nodeid          INTEGER PRIMARY KEY ASC,
     nodename        TEXT,
@@ -18,22 +34,6 @@ CREATE TABLE nodes (
     hosted          INTEGER,
     public_key      TEXT,
     status          TEXT,
-    created         TEXT,
-    modified        TEXT
-);
-
-CREATE TABLE sites (
-    siteid          INTEGER PRIMARY KEY ASC,
-    owner           INTEGER,
-    created         TEXT,
-    modified        TEXT
-);
-
-CREATE TABLE users (
-    userid          INTEGER PRIMARY KEY ASC,
-    username        TEXT,
-    password        TEXT,
-    email           TEXT,
     created         TEXT,
     modified        TEXT
 );

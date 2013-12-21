@@ -112,11 +112,14 @@ if(!function_exists('convBase')) {
 }
 #+----------------------------------------------------------------------------+#
 if(!function_exists('AES256_Encrypt')) {
-  function AES256_Encrypt($sValue, $sSecretKey, $IV = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0") {
+  function AES256_Encrypt($sValue, $sSecretKey, $IV = null) {
+    if(empty($IV)) {
+      $IV = mcrypt_create_iv(strlen($sSecretKey), MCRYPT_DEV_URANDOM);
+    }
     return trim(
       base64_encode(
         mcrypt_encrypt(
-          MCRYPT_RIJNDAEL_256, $sSecretKey, $sValue, MCRYPT_MODE_CBC, $IV
+          MCRYPT_RIJNDAEL_128, $sSecretKey, $sValue, MCRYPT_MODE_CTR, $IV
         )
       )
     );
@@ -124,21 +127,27 @@ if(!function_exists('AES256_Encrypt')) {
 }
 #+----------------------------------------------------------------------------+#
 if(!function_exists('AES256_Decrypt')) {
-  function AES256_Decrypt($sValue, $sSecretKey, $IV = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0") {
+  function AES256_Decrypt($sValue, $sSecretKey, $IV = null) {
+    if(empty($IV)) {
+      $IV = str_repeat("\0", strlen($sSecretKey));
+    }
     return trim(
       mcrypt_decrypt(
-        MCRYPT_RIJNDAEL_256, $sSecretKey, base64_decode($sValue), MCRYPT_MODE_CBC, $IV
+        MCRYPT_RIJNDAEL_128, $sSecretKey, base64_decode($sValue), MCRYPT_MODE_CTR, $IV
       )
     );
   }
 }
 #+----------------------------------------------------------------------------+#
 if(!function_exists('TwoFish_Encrypt')) {
-  function TwoFish_Encrypt($sValue, $sSecretKey, $IV = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0") {
+  function TwoFish_Encrypt($sValue, $sSecretKey, $IV = null) {
+    if(empty($IV)) {
+      $IV = mcrypt_create_iv(strlen($sSecretKey), MCRYPT_DEV_URANDOM);
+    }
     return trim(
       base64_encode(
         mcrypt_encrypt(
-          MCRYPT_TWOFISH, $sSecretKey, $sValue, MCRYPT_MODE_CBC, $IV
+          MCRYPT_TWOFISH, $sSecretKey, $sValue, MCRYPT_MODE_CTR, $IV
         )
       )
     );
@@ -146,10 +155,13 @@ if(!function_exists('TwoFish_Encrypt')) {
 }
 #+----------------------------------------------------------------------------+#
 if(!function_exists('TwoFish_Decrypt')) {
-  function TwoFish_Decrypt($sValue, $sSecretKey, $IV = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0") {
-    return trim(
+  function TwoFish_Decrypt($sValue, $sSecretKey, $IV = null) {
+    if(empty($IV)) {
+      $IV = str_repeat("\0", strlen($sSecretKey));
+    }
+    return rtrim(
       mcrypt_decrypt(
-        MCRYPT_TWOFISH, $sSecretKey, base64_decode($sValue), MCRYPT_MODE_CBC, $IV
+        MCRYPT_TWOFISH, $sSecretKey, base64_decode($sValue), MCRYPT_MODE_CTR, $IV
       )
     );
   }

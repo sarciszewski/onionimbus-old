@@ -1,3 +1,10 @@
+CREATE TABLE sites (
+    siteid          INT(11),
+    owner           INTEGER,
+    created         DATETIME,
+    modified        DATETIME,
+    PRIMARY KEY(siteid),
+);
 CREATE TABLE dns (
     dnsid           INT(11),
     site            INT(11),
@@ -7,24 +14,11 @@ CREATE TABLE dns (
     ssl_private     TEXT,
     ssl_cert        TEXT,
     created         DATETIME,
-    modified        DATETIME
-);
-CREATE TABLE nodes (
-    nodeid          INT(11),
-    nodename        VARCHAR(64),
-    ipv4            VARCHAR(16),
-    ipv6            VARCHAR(40),
-    hosted          INTEGER,
-    public_key      TEXT,
-    status          VARCHAR(32),
-    created         DATETIME,
-    modified        DATETIME
-);
-CREATE TABLE sites (
-    siteid          INT(11),
-    owner           INTEGER,
-    created         DATETIME,
-    modified        DATETIME
+    modified        DATETIME,
+    PRIMARY KEY(dnsid),
+    KEY(site),
+    KEY(domain_name),
+    KEY(node)
 );
 CREATE TABLE users (
     userid          INT(11),
@@ -33,4 +27,16 @@ CREATE TABLE users (
     email           VARCHAR(255),
     created         DATETIME,
     modified        DATETIME
+);
+CREATE TABLE nodes (
+    nodeid          INT(11),
+    nodename        VARCHAR(64),
+    ipv4            VARCHAR(16),
+    ipv6            VARCHAR(40),
+    hosted          INTEGER, -- # sites hosted at this proxy
+    public_key      TEXT,
+    status          VARCHAR(32),
+    created         DATETIME,
+    modified        DATETIME,
+    PRIMARY KEY(nodeid),
 );

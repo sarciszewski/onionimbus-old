@@ -12,18 +12,19 @@ if(!defined('LIBSCOTT_LOADED')) {
 function noinject($string, $mode = 'mysqli') {
   // Input should never be an array. If one is passed by accident, then it was
   // a result of malicious user input. Return a blank, empty string. :)
-  if(is_array($string)) return '';
-  if(get_magic_quotes_gpc()) $string = stripslashes($string);
+  if(is_array($string)) {
+    return '';
+  }
+  if(get_magic_quotes_gpc()) {
+    $string = stripslashes($string);
+  }
   switch($mode) {
     case 'sqlite':
       return SQLite3::escapeString($string);
-      break;
     case 'mysqli':
       return mysqli_real_escape_string($GLOBALS['MySQL'], $string);
-      break;
     default:
       return mysql_real_escape_string($string);
-      break;
   }
 }
 #+----------------------------------------------------------------------------+#
@@ -129,23 +130,17 @@ function blogtime($datetimestring = '1970-01-01 00:00:00', $format = 'U') {
 }
 #+----------------------------------------------------------------------------+#
 function create_slug($in) {
-  $prev = '';
-  /*$input = str_replace('-', ' ', strtolower(trim($input)));
-  $input = preg_replace('/\b(the|a|an|of)\b/', '-', $input);
-    // Unnecessary
-  $input = preg_replace('/([^a-z0-9\-])+/', '-', $input);*/
-  $input =  preg_replace('/([^a-z0-9\-])+/', '-', 
-              preg_replace('/\b(the|a|an|of)\b/', '-', 
-                str_replace('-', ' ', strtolower(trim($in)))
+  $input = preg_replace('/^\-+/', '',
+              preg_replace('/\-*$/', '',
+                preg_replace('/\-{2,}/', '-', 
+                  preg_replace('/([^a-z0-9\-])+/', '-', 
+                    preg_replace('/\b(the|a|an|of)\b/', '-', 
+                    str_replace('-', ' ', strtolower(trim($in)))
+                  )
+                )
               )
-            );
-  do {
-    $prev = $input;
-    $input = str_replace("--", "-", $input);
-    $c = strlen($input)-1;
-    if($input[0] == '-') $input = substr($input, 1); // Trim first character?
-    if($input[$c] == '-') $input = substr($input, 0, $c);// Trim last character?
-  } while($prev != $input);
+            )
+          );
   // Get rid of leading dashes
   return $input;
 }
