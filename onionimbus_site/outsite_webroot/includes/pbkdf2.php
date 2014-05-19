@@ -20,7 +20,7 @@ define("HASH_PBKDF2_INDEX", 3);
 function create_hash($password)
 {
     // format: algorithm:iterations:salt:hash
-    $salt = base64_encode(mcrypt_create_iv(PBKDF2_SALT_BYTES, MCRYPT_DEV_URANDOM));
+    $salt = base64_encode(random_bytes(PBKDF2_SALT_BYTES));
     return PBKDF2_HASH_ALGORITHM . ":" . PBKDF2_ITERATIONS . ":" .  $salt . ":" . 
         base64_encode(pbkdf2(
             PBKDF2_HASH_ALGORITHM,

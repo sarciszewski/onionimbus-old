@@ -19,7 +19,7 @@ if(!defined('GLOBAL_LOADED')) {
   if(!is_dir(ini_get('session.save_path'))) {
     // Prevent session errors during server reboot
     @mkdir(ini_get('session.save_path'));
-    @chmod(ini_get('session.save_path'), 0777);
+    chmod(ini_get('session.save_path'), 0777);
   }
   if(!session_id()) session_start();
   if(empty($_SESSION['birth'])) {
@@ -38,8 +38,10 @@ if(!defined('GLOBAL_LOADED')) {
     $_SESSION['birthTime'] = time()+1;
   }
   // Allows $HMAC['specificForm'] to store HMAC keys in $_SESSION. Laziness.
-  if(empty($_SESSION['hmac'])) $_SESSION['hmac'] = array();
-  $HMAC =& $_SESSION['hmac'];
+  if(empty($_SESSION['csrfTokens'])) {
+    $_SESSION['csrfTokens'] = array();
+  }
+  $HMAC =& $_SESSION['csrfTokens'];
   //error_reporting(E_ALL); ini_set('display_errors', 'On');
   include_once "HTMLPurifier.auto.php";
   $XSS = new HTMLPurifier();
@@ -48,6 +50,7 @@ if(!defined('GLOBAL_LOADED')) {
   $jqueryver = '1.10.2'; // Load this version of jQuery everywhere!
   
   require_once $SETTINGS['includes'].'libscott.php';
+  require_once $SETTINGS['includes'].'CSRF.php';
   require_once $SETTINGS['includes'].'pbkdf2.php';
   # WE CAN USE SQLITE OR MYSQL
   try {
@@ -65,6 +68,14 @@ if(!defined('GLOBAL_LOADED')) {
     }
   } catch (PDOException $e) {
     die("Connection failed: ".$e->getMessage());
+  }
+  if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(!CSRF::post()) {
+      $_POST = []; // Empty array to you!
+      if(!empty($_FILES)) {
+        $_FILES = []; // Empty array to you!
+      }
+    }
   }
   define('GLOBAL_LOADED', true);
 }

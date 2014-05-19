@@ -1,4 +1,4 @@
-<?
+<?php
 // Use argv, argc to determine if we're creating a sqlite database or a MySQL db
 /*
  * CURRENT STATUS: Rethinking the approach here :(
@@ -50,7 +50,7 @@ switch($dbtype) {
     try {
       $DB = new PDO("pgsql:host={$dbhost};dbname={$dbname}", $dbuser, $dbpass);
     } catch (Exception $ex) {
-      die("Could not connect to MySQL database!\n");
+      die("Could not connect to PostgreSQL database!\n");
     }
     break;
   default:

@@ -9,10 +9,9 @@ then
   # nginx is installed on this server. Hooray! :D
   apt-get install -y php5-dev php-pear
   pecl install scrypt
-  # TEST=`rgrep "scrypt" /etc/php5/*/php.ini`
-  # Todo: add a check that makes sure extension=scrypt.so is added to php.ini
-  # For now, make it manual
-  echo "extension=scrypt.so" >> /etc/php5/fpm/php.ini
+
+  # Just place it in mods-available in case it gets overwritten
+  echo "extension=scrypt.so" > /etc/php5/mods-available/scrypt.ini
 
   # Move configuration files
   mv ./conf/php.conf /etc/nginx/php.conf

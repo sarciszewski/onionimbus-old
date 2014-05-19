@@ -1,10 +1,10 @@
-<?
+<?php
 require_once "/var/onionimbus/includes/global.php";
 if(isset($_SESSION['user_id'])) {
   header("Location: /account/"); exit;
 }
 $pageTitle = "Sign Up";
-if(isset($_POST['hmac']) && isset($_POST['username']) && isset($_POST['password'])) {
+if(isset($_POST['username']) && isset($_POST['password'])) {
   $username = noinject($_POST['username']);
   $password = create_hash($_POST['password']);
   # DEBUGGING
@@ -26,8 +26,8 @@ if(isset($_POST['hmac']) && isset($_POST['username']) && isset($_POST['password'
     (minimum 10 characters)<br />
   <label class="formLabel textright">Contact Information:</label>
     <textarea name="contactInfo" style="margin-top: -1em; margin-left: 160px;" placeholder="Email address, phone number, XMPP account, GPG keys; anything we would need to contact you in case we received a DMCA notice or other legal document"></textarea><br /> 
-  <input type="hidden" name="hmac" value="<?
-    $HMAC['signupForm'] = openssl_random_pseudo_bytes(32);
+  <input type="hidden" name="hmac" value="<?php
+    $HMAC['signupForm'] = random_bytes(32);
     echo hash_hmac('sha256', $_SERVER['REMOTE_ADDR'], $HMAC['signupForm']);
   ?>" />
   <button type="submit">

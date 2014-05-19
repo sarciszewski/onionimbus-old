@@ -4,6 +4,32 @@
 # Scott to make them more efficient and less glitchy.                          #
 ################################################################################
 /**
+ * Generate $N bytes of random data -- emphasize /dev/urandom
+ * http://www.sockpuppet.org/blog/2014/02/25/safely-generate-random-numbers/
+ */
+if(!function_exists('random_bytes')) {
+  function random_bytes($len, $hex = false) {
+    if(is_readable('/dev/arandom')) {
+      // For certain flavors of BSD
+      $fp = fopen('/dev/arandom', 'rb'); // read-only, binary-safe
+      $data = fread($fp, $len); // Get the bytes
+      fclose($fp); // Close the damn file handler
+    } elseif(is_readable('/dev/urandom')) {
+      $fp = fopen('/dev/urandom', 'rb'); // read-only, binary-safe
+      $data = fread($fp, $len); // Get the bytes
+      fclose($fp); // Close the damn file handler
+    } elseif(function_exists('mcrypt_create_iv')) {
+      $data = mcrypt_create_iv($len, MCRYPT_DEV_URANDOM);
+    } elseif(function_exists('openssl_random_pseudo_bytes')) {
+      $data = openssl_random_pseudo_bytes($len);
+    } else {
+      die("No suitable random number generator found! Upgrade PHP to 5.3+");
+    }
+    if($hex) { $data = bin2hex($data); }
+    return $data;
+  }
+}
+/**
   Validate an email address.
   Provide email address (raw input)
   Returns true if the email address has the email
