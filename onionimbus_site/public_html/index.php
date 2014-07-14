@@ -11,4 +11,4 @@ require_once "/var/onionimbus/includes/layout_top.php";
 </p>
 <?
 require_once "/var/onionimbus/includes/layout_bottom.php";
-?>
+// RM
